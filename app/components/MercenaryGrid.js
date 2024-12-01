@@ -1,5 +1,5 @@
 'use client';
-
+import { useState } from 'react';
 import Image from "next/image";
 import Button from '../components/Button'; // Import Button component
 import Badge_Type from './Badge_Type'; // Import Badge_Type component

@@ -1,5 +1,5 @@
 // hooks/useMercenaries.js
-
+'use client'
 import { useState, useEffect } from "react";
 
 const useMercenaries = () => {

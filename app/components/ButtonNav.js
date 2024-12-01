@@ -1,5 +1,3 @@
-'use client';
-
 import { cn } from '@/lib/utils';
 
 export default function ButtonNav({ className, children, onClick }) {

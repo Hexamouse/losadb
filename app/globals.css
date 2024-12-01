@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+* {
+  cursor: url('/cursor.png'), auto; /* Use the cursor.png file */
+}
+
+button, a, .clickable, .cursor-pointer {
+  cursor: url('/cur-item.png') 16 16, pointer; /* Custom pointer cursor */
+}
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: "JetBrains Mono", monospace;
+}
+
+title-custom {
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 800;
+}

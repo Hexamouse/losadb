@@ -1,7 +1,3 @@
-// components/MercenaryGrid.js
-
-'use client';
-
 import Image from "next/image";
 import Button from '../components/Button'; // Import Button component
 import Badge_Type from './Badge_Type'; // Import Badge_Type component

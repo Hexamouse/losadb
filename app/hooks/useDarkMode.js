@@ -1,5 +1,5 @@
 // hooks/useDarkMode.js
-'use client';
+'use client'
 import { useState, useEffect } from "react";
 
 const useDarkMode = () => {

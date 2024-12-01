@@ -1,5 +1,5 @@
 // hooks/useFilters.js
-
+'use client';
 import { useState } from "react";
 
 const useFilters = () => {

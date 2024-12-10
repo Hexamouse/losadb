@@ -3,7 +3,7 @@
       id: 1,
       type: "Normal",
       AttackType: "Melee",
-      name: "Iron Knight",
+      name: "Iron Nigga",
       image_thumb_male: "/thumbs/1/001_thumb_male.jpg",
       image_thumb_female: "/thumbs/1/001_thumb_female.jpg",
       video:
@@ -46,7 +46,7 @@
     id: 2,
     type: "Normal",
     AttackType: "Melee",
-    name: "Captain Hook",
+    name: "Captain Amba",
     video:
       "https://www.youtube-nocookie.com/embed/_KUQmi0YGu8?si=1yN1_17utp-YkWjq&amp;controls=0",
     description:

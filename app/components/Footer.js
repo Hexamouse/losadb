@@ -27,6 +27,14 @@ const Footer = ({ isDarkMode }) => {
             Tools
           </a>
           <a
+            href="https://www.youtube.com/@lsfdyt"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`hover:${isDarkMode ? 'text-gray-300' : 'text-gray-400'} ${isDarkMode ? 'text-white' : 'text-black'}`}
+          >
+            Discord
+          </a>
+          <a
             href="https://github.com/LSFDC"
             target="_blank"
             rel="noopener noreferrer"

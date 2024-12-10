@@ -1,162 +1,211 @@
-'use client'
+'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
+import Button from '../components/Button';
+import Input from '../components/Input';
+import Modal from '../components/Modal';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import useDarkMode from '../hooks/useDarkMode';
 
 export default function ServerIDGen() {
-  const [ip, setIp] = useState('');
-  const [port, setPort] = useState('');
-  const [gameServerID, setGameServerID] = useState('');
-  const [result, setResult] = useState('');
-  const [error, setError] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);  // Modal state
+    const [ip, setIp] = useState('');
+    const [port, setPort] = useState('');
+    const [gameServerID, setGameServerID] = useState('');
+    const [result, setResult] = useState('');
+    const [error, setError] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);  // Modal state
+    const [isTutorialVisible, setIsTutorialVisible] = useState(false); // Tutorial modal visibility state
 
-  // Handle conversion from IP & port to Game Server ID
-  const handleConvertToServerID = async () => {
-    setError('');
-    setResult('');
+    // Get dark mode state and toggler from the custom hook
+    const { isDarkMode, toggleDarkMode } = useDarkMode();
 
-    if (!ip || !port) {
-      setError('IP address and port are required.');
-      return;
-    }
+    // Handle conversion from IP & port to Game Server ID
+    const handleConvertToServerID = async () => {
+        setError('');
+        setResult('');
 
-    try {
-      const res = await fetch('/api/serverIDGen', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ip, port })
-      });
-      const data = await res.json();
+        if (!ip || !port) {
+            setError('IP address and port are required.');
+            return;
+        }
 
-      if (data.gameServerID) {
-        setResult(`Game Server ID: ${data.gameServerID}`);
-        setIsModalOpen(true);
-      } else {
-        setError(data.error || 'Error in conversion');
-      }
-    } catch (err) {
-      setError('Something went wrong.');
-    }
-  };
+        try {
+            const res = await fetch('/api/serverIDGen', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ ip, port })
+            });
+            const data = await res.json();
 
-  const handleConvertToAddress = async () => {
-    setError('');
-    setResult('');
+            if (data.gameServerID) {
+                setResult(`ServerID: ${data.gameServerID}`);
+                setIsModalOpen(true);
+            } else {
+                setError(data.error || 'Error in conversion');
+            }
+        } catch (err) {
+            setError('Something went wrong.');
+        }
+    };
 
-    if (!gameServerID) {
-      setError('Game Server ID is required.');
-      return;
-    }
+    const handleConvertToAddress = async () => {
+        setError('');
+        setResult('');
 
-    try {
-      const res = await fetch('/api/serverIDGen', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ gameServerID })
-      });
-      const data = await res.json();
+        if (!gameServerID) {
+            setError('ServerID is required.');
+            return;
+        }
 
-      if (data.ip) {
-        setResult(`IP Address: ${data.ip}, Port: ${data.port}`);
-        setIsModalOpen(true);
-      } else {
-        setError(data.error || 'Error in conversion');
-      }
-    } catch (err) {
-      setError('Something went wrong.');
-    }
-  };
+        try {
+            const res = await fetch('/api/serverIDGen', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ gameServerID })
+            });
+            const data = await res.json();
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setResult('');
-    setError('');
-  };
+            if (data.ip) {
+                setResult(`IP Address: ${data.ip}, Port: ${data.port}`);
+                setIsModalOpen(true);
+            } else {
+                setError(data.error || 'Error in conversion');
+            }
+        } catch (err) {
+            setError('Something went wrong.');
+        }
+    };
 
-  return (
-    <div className="flex flex-col items-center justify-center p-6 min-h-screen">
-      <h1 className="text-3xl font-semibold mb-6 text-white">Game Server ID Converter</h1>
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setResult('');
+        setError('');
+    };
 
-      <div className="flex flex-col items-center space-y-6">
-        <div className="w-full max-w-md bg-white p-6 shadow-md rounded-lg">
-          <h2 className="text-lg text-center text-black font-semibold mb-4">Convert IP & Port to Game Server ID</h2>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-black">IP Address</label>
-            <input
-              type="text"
-              className="mt-1 block w-full px-4 py-2 text-black border rounded-lg border-gray-300"
-              placeholder="192.168.1.1"
-              value={ip}
-              onChange={(e) => setIp(e.target.value)}
-            />
-          </div>
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-black">Port</label>
-            <input
-              type="number"
-              className="mt-1 block w-full px-4 py-2 text-black border rounded-lg border-gray-300"
-              placeholder="8080"
-              value={port}
-              onChange={(e) => setPort(e.target.value)}
-            />
-          </div>
-          <button
-            onClick={handleConvertToServerID}
-            className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-          >
-            Convert
-          </button>
-        </div>
+    const closeTutorial = () => {
+        setIsTutorialVisible(false);
+    };
 
-        {/* Convert Game Server ID to IP & Port */}
-        <div className="w-full max-w-md bg-white p-6 shadow-md rounded-lg">
-          <h2 className="text-lg text-center text-black font-semibold mb-4">Convert Game Server ID to IP & Port</h2>
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-black">ServerID</label>
-            <input
-              type="text"
-              className="mt-1 block w-full px-4 py-2 text-black border rounded-lg border-gray-300"
-              placeholder="1234567890123456"
-              value={gameServerID}
-              onChange={(e) => setGameServerID(e.target.value)}
-            />
-          </div>
-          <button
-            onClick={handleConvertToAddress}
-            className="w-full py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
-          >
-            Convert
-          </button>
-        </div>
-        
-      </div>
+    return (
+        <div className={`min-h-screen flex flex-col ${isDarkMode ? 'bg-[#2D2D2D] text-white' : 'bg-[#FEF2E8] text-black'} transition-all duration-500`}>
+            {/* Navbar */}
+            <Navbar toggleDarkMode={toggleDarkMode} isDarkMode={isDarkMode} />
 
-      {/* Modal Popup */}
-      {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg shadow-lg max-w-lg p-6">
-            <h2 className="text-lg font-semibold mb-4 text-black">Result</h2>
-            <p className="text-lg text-black">{result || error}</p>
-            <div className="mt-4 flex justify-end">
-              <button
-                onClick={closeModal}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-              >
-                Close
-              </button>
+            {/* Tutorial Modal */}
+            {isTutorialVisible && (
+                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-80">
+                    <div className={`border-2 border-black ${isDarkMode ? 'bg-[#333]' : 'bg-white'} shadow-2xl max-w-lg p-8`}>
+                        <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">How to Use</h2>
+                        <p className="text-lg text-gray-800 dark:text-gray-300">
+                            This tool allows you to convert between GameServer ID and its corresponding IP address and port.
+                            To convert from IP &amp; Port to Game Server ID, simply enter the values and click &quot;Convert&quot;.
+                            To convert from Game Server ID to IP &amp; Port, input the Game Server ID and click &quot;Convert&quot;.
+                            Results will appear in the modal.
+                        </p>
+
+                        <div className="mt-6 flex justify-end">
+                            <Button
+                                onClick={closeTutorial}
+                                className="bg-red-600 text-white hover:bg-red-700 focus:ring-4 focus:ring-red-500"
+                            >
+                                Close Tutorial
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Title Section */}
+            <h1 className={`text-4xl mt-12 font-extrabold text-center ${isDarkMode ? 'text-white' : 'text-[#212121]'}`}>GameServerID Generator</h1>
+
+            {/* Main Content */}
+            <div className="flex flex-col items-center md:flex-row md:space-x-8 w-[90%] md:w-[80%] mx-auto mb-8 flex-grow justify-center gap-8">
+                {/* Convert IP & Port to Game Server ID */}
+                <div className={`w-full border-2 border-black rounded-xl max-w-md ${isDarkMode ? 'bg-[#333]' : 'bg-white'} p-8 shadow-xl`}>
+                    <h2 className="text-lg font-semibold text-center text-gray-800 dark:text-white mb-6">Convert IP & Port to Game Server ID</h2>
+                    <div className="mb-4">
+                        <Input
+                            label="IP Address"
+                            className="w-full"
+                            value={ip}
+                            setValue={setIp}
+                            placeholder="192.168.1.1"
+                        />
+                    </div>
+                    <div className="mb-6">
+                        <Input
+                            label="Port"
+                            className="w-full"
+                            value={port}
+                            setValue={setPort}
+                            placeholder="8080"
+                        />
+                    </div>
+                    <Button
+                        onClick={handleConvertToServerID}
+                        className="w-full py-3 bg-blue-600 text-white hover:bg-blue-700 focus:ring-4 focus:ring-blue-500"
+                    >
+                        Convert
+                    </Button>
+
+                    {/* Tutorial Button */}
+                    <Button
+                        onClick={() => setIsTutorialVisible(true)}
+                        className="w-full py-3 mt-4 bg-yellow-600 text-white hover:bg-yellow-700 focus:ring-4 focus:ring-yellow-500"
+                    >
+                        Show Tutorial
+                    </Button>
+                </div>
+
+                {/* Image Positioned Between the Convert Sections */}
+                <div className="flex justify-center items-center mb-8 md:mb-0">
+                    <Image
+                        src="/convert.svg"
+                        alt="Conversion Icon"
+                        width={100}
+                        height={100}
+                    />
+                </div>
+
+                {/* Convert Game Server ID to IP & Port */}
+                <div className={`w-full border-2 border-black rounded-xl max-w-md ${isDarkMode ? 'bg-[#333]' : 'bg-white'} p-8 shadow-xl`}>
+                    <h2 className="text-xl font-semibold text-center text-gray-800 dark:text-white mb-6">Convert Game Server ID to IP & Port</h2>
+                    <div className="mb-6">
+                        <Input
+                            label="ServerID"
+                            className="w-full"
+                            value={gameServerID}
+                            setValue={setGameServerID}
+                            placeholder="1234567890123456"
+                        />
+                    </div>
+                    <Button
+                        className="w-full py-3 bg-green-600 text-white hover:bg-green-700 focus:ring-4 focus:ring-green-500"
+                        onClick={handleConvertToAddress}
+                    >
+                        Convert
+                    </Button>
+                </div>
             </div>
-          </div>
-        </div>
-      )}
 
-      {/* Footer */}
-      <footer className="w-full text-center mt-6 py-4 text-white absolute bottom-0 left-0">
-        <p>by Mysticalx | LostSaga for Developers</p>
-      </footer>
-    </div>
-  );
+            {/* Modal Popup for Result */}
+            {isModalOpen && (
+                <Modal
+                    onClose={closeModal}
+                    title="Result"
+                    content={result || error}
+                    buttonText="Close"
+                />
+            )}
+
+            {/* Footer */}
+            <Footer isDarkMode={isDarkMode} className="bg-gray-800 text-white py-2 mt-auto" />
+        </div>
+    );
 }

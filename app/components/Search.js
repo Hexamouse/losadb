@@ -1,7 +1,3 @@
-// components/Search.js
-
-'use client';
-
 import Input from './Input'; // Import Input component
 
 const Search = ({ searchTerm, setSearchTerm, isDarkMode }) => {

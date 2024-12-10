@@ -88,7 +88,7 @@ const Navbar = ({ toggleDarkMode, isDarkMode }) => {
           {/* Desktop and tablet menu */}
           <ButtonNav
             className="px-4 py-2 rounded-lg flex space-x-2"
-            onClick={() => window.open("../serverIDGen", "_blank")}
+            onClick={() => open("../serverIDGen")}
           >
             <div className="w-5 h-5 relative mr-2">
               <Image src="/settings.png" alt="Settings" layout="fill" objectFit="contain" />

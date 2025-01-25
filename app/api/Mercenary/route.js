@@ -1,49 +1,21 @@
-// pages/heroes.js
 import Mercenary from "@/data/Mercenary";
 
-export async function getStaticProps() {
+export async function GET() {
   try {
+    // Check if Mercenary data is available
     if (!Mercenary || Mercenary.length === 0) {
-      return {
-        notFound: true, // Jika data tidak ada, halaman akan jadi 404
-      };
+      return new Response(
+        JSON.stringify({ message: 'No mercenaries found' }),
+        { status: 404, headers: { 'Content-Type': 'application/json' } }
+      );
     }
-
-    return {
-      props: {
-        mercenaries: Mercenary, // Kirimkan data Mercenary ke halaman
-      },
-    };
+    return new Response(JSON.stringify(Mercenary), {
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (error) {
-    console.error("Error fetching mercenaries:", error);
-    return {
-      props: {
-        mercenaries: [],
-        error: "Internal Server Error",
-      },
-    };
+    console.error('Error fetching mercenaries:', error);
+    return new Response(
+      JSON.stringify({ message: 'Internal Server Error' }),
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    );
   }
-}
-
-const HeroesPage = ({ mercenaries, error }) => {
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  return (
-    <div>
-      <h1>Heroes List</h1>
-      <ul>
-        {mercenaries.length > 0 ? (
-          mercenaries.map((hero) => (
-            <li key={hero.id}>{hero.name}</li>
-          ))
-        ) : (
-          <li>No mercenaries found</li>
-        )}
-      </ul>
-    </div>
-  );
-};
-
-export default HeroesPage;

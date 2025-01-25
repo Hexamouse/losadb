@@ -10681,6 +10681,45 @@
       },
     ],
   },
+     {
+    id: 261,
+    type: "Unique",
+    AttackType: "Melee",
+    name: "Glacies",
+    video: "",
+    description:
+      "The Frost Master harnesses the power of cold to craft a variety of weapons",
+    skills: [
+      {
+        id: 1,
+        name: "Water Dragon Bullet",
+        description: "Sends numerous water dragons forward.",
+        icon: "https://api.lostsaga.xyz/uploads/944540b8d89ff5f597db9444c4a8d8d9.png",
+        type: "Weapon Skill",
+      },
+      {
+        id: 2,
+        name: "Water Dragon Art",
+        description: "Summons a water dragon to attack.",
+        icon: "https://api.lostsaga.xyz/uploads/fbcadee0c02d11c48540012e518689b0.png",
+        type: "Armor Skill",
+      },
+      {
+        id: 3,
+        name: "Tsunami Summon",
+        description: "Summons a powerful tidal wave to attack.",
+        icon: "https://api.lostsaga.xyz/uploads/cfa57aa4fedecb1384c58e0322d332ae.png",
+        type: "Helmet Skill",
+      },
+      {
+        id: 4,
+        name: "Dragon Spire",
+        description: "Summons and fires multiple water tornadoes",
+        icon: "https://api.lostsaga.xyz/uploads/df2f8003da3fca035ceaf4b934020637.png",
+        type: "Trinket Skill",
+      },
+    ],
+  },
   {
     id: 505,
     type: "Reform",

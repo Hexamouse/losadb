@@ -1,3 +1,4 @@
+// app/api/heroes/route.js
 import Mercenary from "@/data/Mercenary";
 
 export async function GET() {
@@ -9,6 +10,7 @@ export async function GET() {
         { status: 404, headers: { 'Content-Type': 'application/json' } }
       );
     }
+
     return new Response(JSON.stringify(Mercenary), {
       headers: { 'Content-Type': 'application/json' },
     });
@@ -19,3 +21,4 @@ export async function GET() {
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }
+}
